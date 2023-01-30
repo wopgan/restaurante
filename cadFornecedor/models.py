@@ -1,0 +1,53 @@
+from django.db import models
+
+class Fornecedor(models.Model):
+    id = models.AutoField(primary_key=True)
+    nome = models.CharField(max_length=100)
+    cnpj = models.CharField(max_length=18, verbose_name='CNPJ', help_text='00.000.000/0001-00')
+    telefone = models.CharField(max_length=20, help_text='(62) 3333-3333')
+    email = models.EmailField(verbose_name='E-mail')
+
+    def __str__(self):
+        return self.nome
+    
+    class Meta:
+        verbose_name = 'Fornecedor'
+        verbose_name_plural = 'Fornecedores'
+
+class Vendedor(models.Model):
+    id = models.AutoField(primary_key=True)
+    fornecedor = models.ForeignKey(Fornecedor, on_delete=models.CASCADE)
+    nome = models.CharField(max_length=100)
+    telefone = models.CharField(max_length=20)
+    email = models.EmailField()
+
+    tipo_choices = [
+            ('s', 'Seco'),
+            ('m', 'Molhado'),
+        ]
+    
+    tipo = models.CharField(max_length=1, choices=tipo_choices, default='Seco')
+
+    def __str__(self):
+        return self.nome
+
+    class Meta:
+        verbose_name = 'Vendedor'
+        verbose_name_plural = 'Vendedores'
+
+
+class Produto(models.Model):
+    id = models.AutoField(primary_key=True)
+
+    tipo_choices = [
+            ('s', 'Seco'),
+            ('m', 'Molhado'),
+    ]
+
+    nome_produto = models.CharField(max_length=100, verbose_name='Nome Produto')
+    marca_produto = models.CharField(max_length=100, verbose_name='Marca Produto')
+    preco = models.DecimalField(max_digits=10, decimal_places=2)
+    tipo = models.CharField(max_length=1, choices=tipo_choices, default='Seco')
+    fornecedor = models.ForeignKey(Fornecedor, on_delete=models.CASCADE)
+    
+    
