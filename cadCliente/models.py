@@ -63,4 +63,6 @@ class Pedido(models.Model):
             return f'Pedido {self.id} - Cliente: {self.cliente} - {self.qnt_marmita:.0f} Marmitas - Valor a pagar R$ {self.total}'
         else:
             return f'Pedido {self.id} - Cliente: {self.cliente} - {self.qnt_marmita:.0f} Marmitas - Pedido Pago'
+            
+            
 

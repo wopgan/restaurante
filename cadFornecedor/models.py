@@ -49,5 +49,37 @@ class Produto(models.Model):
     preco = models.DecimalField(max_digits=10, decimal_places=2)
     tipo = models.CharField(max_length=1, choices=tipo_choices, default='Seco')
     fornecedor = models.ForeignKey(Fornecedor, on_delete=models.CASCADE)
+
+    def __str__(self):
+        return self.nome_produto
     
     
+class Compra(models.Model):
+    id = models.AutoField(primary_key=True)
+    nome_lista = models.CharField(max_length=100, verbose_name='Nome da Lista')
+    valor_compra = models.DecimalField(max_digits=10, decimal_places=2, verbose_name='Valor da compra', default=0)
+
+    def __str__(self):
+        return f'{self.nome_lista} esta no valor de R${self.valor_compra}'
+
+
+class ItemLista(models.Model):
+    id = models.AutoField(primary_key=True)
+    compra = models.ForeignKey(Compra, on_delete=models.CASCADE)
+    produto = models.ForeignKey(Produto, on_delete=models.CASCADE)
+    quantidade = models.DecimalField(max_digits=10, decimal_places=2)
+    valor = models.DecimalField(max_digits=10, decimal_places=2, default=0)
+
+    def save(self, *args, **kwargs):
+        self.valor = self.produto.preco * self.quantidade
+        self.compra.valor_compra += self.valor
+        self.compra.save()
+        super().save(*args, **kwargs)
+
+    def delete(self, *args, **kwargs):
+        self.compra.valor_compra -= self.valor
+        self.compra.save()
+        super().delete(*args, **kwargs)
+
+    def __str__(self):
+        return self.compra.nome_lista
