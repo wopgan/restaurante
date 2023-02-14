@@ -42,7 +42,8 @@ INSTALLED_APPS = [
     'django.contrib.admindocs',
     'cadFornecedor',
     'cadCliente',
-    'relatorio'
+    'relatorio',
+    'home'
 ]
 
 MIDDLEWARE = [
@@ -60,7 +61,7 @@ ROOT_URLCONF = 'core.urls'
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [],
+        'DIRS': [os.path.join(BASE_DIR, 'templates')],
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
@@ -81,12 +82,9 @@ WSGI_APPLICATION = 'core.wsgi.application'
 
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.postgresql',
-        'NAME': 'citjur_db',
-        'USER': 'postgres',
-        'PASSWORD': 'CitJur#dbWWW2022',
-        'HOST': 'localhost',
-        'PORT': '5432',
+        'ENGINE': 'django.db.backends.sqlite3',
+        'NAME': BASE_DIR / 'db.sqlite3',
+        
     }
 }
 
@@ -121,11 +119,15 @@ USE_I18N = True
 
 USE_TZ = True
 
+APPEND_SLASH=False
 
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/4.1/howto/static-files/
 
 STATIC_URL = 'static/'
+STATIC_ROOT = os.path.join(BASE_DIR, STATIC_URL)
+
+STATICFILES_DIRS = [ os.path.join(BASE_DIR, 'staticfiles/'), ] 
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/4.1/ref/settings/#default-auto-field

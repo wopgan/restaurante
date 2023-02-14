@@ -27,6 +27,7 @@ class Pedido(models.Model):
     data = models.DateTimeField(auto_now_add=True)
     qnt_marmita = models.DecimalField(max_digits=10, decimal_places=2, verbose_name='Quantidade de marmitas')
     valor_marmita = models.DecimalField(max_digits=10, decimal_places=2, verbose_name='Valor und marmita R$')
+    descricao = models.TextField(default='0', verbose_name='descrição')
     total = models.DecimalField(max_digits=10, decimal_places=2, default=0)
 
     pago_choices = [

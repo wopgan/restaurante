@@ -1,0 +1,10 @@
+{% extends 'home/home_base.html' %}
+
+{% block content %}
+  <h2>Cadastro de Cliente</h2>
+  <form method="post">
+    {% csrf_token %}
+    {{ form.as_p }}
+    <button type="submit">Salvar</button>
+  </form>
+{% endblock %}
